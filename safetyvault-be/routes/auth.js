@@ -55,7 +55,6 @@ router.post('/login', async (req, res) => {
     }
 });
 
-// After successfully logged in
 router.get('/homepage', (req, res) => {
     if (!req.session.user) {
         return res.status(401).json({ message: 'Unauthorized' });
