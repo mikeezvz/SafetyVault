@@ -9,7 +9,10 @@ const port = process.env.PORT || 5000;
 
 // Middleware
 app.use(express.json());
-app.use(cors());
+app.use(cors({
+  origin: 'http://localhost:3000',
+  credentials: true,
+}));
 app.use(
     session({
         secret: 'password123',
@@ -20,6 +23,9 @@ app.use(
             collectionName: 'sessions',
         }),
         cookie: { maxAge: 1000 * 60 * 60 },
+        httpOnly: true,         // Prevent JavaScript access to cookies
+        secure: false,          // Set to true if using HTTPS
+        sameSite: 'lax',        // Ensure cookies are properly sent
     })
 );
 

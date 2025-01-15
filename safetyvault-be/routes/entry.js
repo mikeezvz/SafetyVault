@@ -12,10 +12,18 @@ const entrySchema = new mongoose.Schema({
         ref: 'User',
         required: true
     }
-  });
+});
 
-  const Entry = mongoose.model('entries', entrySchema);
+const Entry = mongoose.model('entries', entrySchema);
 
+router.use((req, res, next) => {
+  if (!req.session.user) {
+    return res.status(401).json({ message: "Unauthorized" });
+  }
+  next();
+});
+
+  
 router.get('/all', async (request, response) => {
     try {
         const entries = await Entry.find({ user: request.session.user.id });

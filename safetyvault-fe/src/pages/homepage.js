@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 export default function Homepage() {
   const [service, setService] = useState("");
@@ -6,20 +6,59 @@ export default function Homepage() {
   const [password, setPassword] = useState("");
   const [entries, setEntries] = useState([]);
 
-  const handleAddEntry = () => {
+// Fetches entries from db when page loads
+useEffect(() => {
+    const fetchEntries = async () => {
+      try {
+        const response = await fetch("http://localhost:5000/entry/all", {
+          method: "GET",
+          credentials: "include", 
+        });
+        if (!response.ok) {
+          throw new Error("Failed to fetch entries");
+        }
+        const data = await response.json();
+        setEntries(data);
+      } catch (error) {
+        console.error("Error fetching entries:", error);
+      }
+    };
+
+    fetchEntries();
+}, []);
+
+const handleAddEntry = async () => {
     if (!service || !username || !password) {
       alert("Please fill in all fields!");
       return;
     }
 
-    const newEntry = { service, username, password };
-    setEntries([...entries, newEntry]);
-    setService("");
-    setUsername("");
-    setPassword("");
-  };
+    try {
+      const response = await fetch("http://localhost:5000/entry/new", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        credentials: "include",
+        body: JSON.stringify({ service, username, password }),
+      });
 
-  return (
+      if (!response.ok) {
+        throw new Error("Failed to save entry");
+      }
+
+      const savedEntry = await response.json();
+      setEntries([...entries, savedEntry]); 
+      setService("");
+      setUsername("");
+      setPassword("");
+    } catch (error) {
+      console.error("Error saving entry:", error);
+    }
+};
+
+
+return (
     <div className="homepage-container">
       <h1 className="homepage-title">Homepage</h1>
       <div className="homepage-form">
