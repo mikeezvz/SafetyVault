@@ -4,14 +4,8 @@ const mongoose = require('mongoose');
 const session = require('express-session');
 const MongoStore = require('connect-mongo');
 require('dotenv').config();
-
 const app = express();
 const port = process.env.PORT || 5000;
-<<<<<<< HEAD
-const session = require('express-session');
-const path = require('path');
-=======
->>>>>>> efce576cbac74a95820933ffd058771613c31a6e
 
 // Middleware
 app.use(express.json());
@@ -46,22 +40,16 @@ mongoose.connect(mongoURL, {
 const userRoute = require('./routes/auth');
 app.use('/user', userRoute);
 
-<<<<<<< HEAD
 const entryRoute = require('./routes/entry');
-app.use('/entry', entryRoute)
+app.use('/entry', entryRoute);
 
 const authRoute = require('./routes/auth');
-app.use('/auth', authRoute)
+app.use('/auth', authRoute);
 
-app.listen(port, '0.0.0.0', () => {
-    console.log(`Server running on port ${port}`);
-});
-=======
 app.get('/', (req, res) => {
-    res.send('Homepage');
+    res.send('SafetyVault Backend');
 });
 
 app.listen(port, () => {
     console.log(`Server running on port: ${port}`);
 });
->>>>>>> efce576cbac74a95820933ffd058771613c31a6e

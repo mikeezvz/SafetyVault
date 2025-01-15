@@ -1,10 +1,6 @@
 const express = require('express');
 const bcrypt = require('bcrypt');
 const router = express.Router();
-<<<<<<< HEAD
-const bcrypt = require("bcrypt");
-const mongoose = require('mongoose');
-=======
 const User = require('../routes/user');
 
 // Registration
@@ -14,7 +10,6 @@ router.post('/register', async (req, res) => {
     if (!username || !password) {
         return res.status(400).json({ message: 'Username and password are required' });
     }
->>>>>>> efce576cbac74a95820933ffd058771613c31a6e
 
     try {
         const existingUser = await User.findOne({ username });
