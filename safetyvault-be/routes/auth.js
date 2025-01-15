@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const bcrypt = require("bcrypt");
+const mongoose = require('mongoose');
 
 router.post("/register", async (request, response) => {
     const { username, password } = request.body;
