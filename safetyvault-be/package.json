@@ -12,7 +12,12 @@
   "license": "ISC",
   "dependencies": {
     "bcrypt": "^5.1.1",
+<<<<<<< HEAD
+=======
+    "connect-mongo": "^5.1.0",
+>>>>>>> efce576cbac74a95820933ffd058771613c31a6e
     "cors": "^2.8.5",
+    "dotenv": "^16.4.7",
     "express": "^4.21.1",
     "express-session": "^1.18.1",
     "mongoose": "^8.8.3",

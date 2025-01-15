@@ -1,44 +1,72 @@
-const express = require("express");
+const express = require('express');
+const bcrypt = require('bcrypt');
 const router = express.Router();
+<<<<<<< HEAD
 const bcrypt = require("bcrypt");
 const mongoose = require('mongoose');
+=======
+const User = require('../routes/user');
 
-router.post("/register", async (request, response) => {
-    const { username, password } = request.body;
+// Registration
+router.post('/register', async (req, res) => {
+    const { username, password } = req.body;
+
+    if (!username || !password) {
+        return res.status(400).json({ message: 'Username and password are required' });
+    }
+>>>>>>> efce576cbac74a95820933ffd058771613c31a6e
+
     try {
-        const conn = await pool.getConnection();
-        const [rows] = await conn.query("SELECT * FROM users WHERE name = ?", [username]);
-        if (rows.length > 0) {
-            response.status(400).send("Username has already been used!");
-        } else {
-            const hashedPassword = await bcrypt.hash(password, 10);
-            await conn.query("INSERT INTO users (name, password) VALUES (?, ?)", [username, hashedPassword]);
-            response.status(201).send("User registered successfully!");
+        const existingUser = await User.findOne({ username });
+        if (existingUser) {
+            return res.status(400).json({ message: 'Username already exists' });
         }
-        conn.release();
+
+        const hashedPassword = await bcrypt.hash(password, 10);
+        const newUser = new User({ username, password: hashedPassword });
+
+        await newUser.save();
+        res.status(201).json({ message: 'User registered successfully' });
     } catch (error) {
-        response.status(500).send("Internal server error");
+        console.error(error);
+        res.status(500).json({ message: 'Internal server error' });
     }
 });
 
-router.post("/login", async (request, response) => {
-    const { username, password } = request.body;
-    try {
-        const conn = await pool.getConnection();
-        const [rows] = await conn.query("SELECT * FROM users WHERE name = ?", [username]);
-        if (rows.length === 0) {
-            return response.status(400).send("User doesn't exist!");
-        }
-        const user = rows[0];
-        if (await bcrypt.compare(password, user.password)) {
-            response.send("Success!");
-        } else {
-            response.send("Not allowed");
-        }
-        conn.release();
-    } catch (error) {
-        response.status(500).send("Internal server error");
+// Login
+router.post('/login', async (req, res) => {
+    const { username, password } = req.body;
+
+    if (!username || !password) {
+        return res.status(400).json({ message: 'Username and password are required' });
     }
+
+    try {
+        const user = await User.findOne({ username });
+        if (!user) {
+            return res.status(400).json({ message: 'User does not exist' });
+        }
+
+        const isPasswordValid = await bcrypt.compare(password, user.password);
+        if (!isPasswordValid) {
+            return res.status(400).json({ message: 'Invalid credentials' });
+        }
+
+        req.session.user = { id: user._id, username: user.username };
+        res.json({ message: 'Login successful', user: req.session.user });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Internal server error' });
+    }
+});
+
+// After successfully logged in
+router.get('/homepage', (req, res) => {
+    if (!req.session.user) {
+        return res.status(401).json({ message: 'Unauthorized' });
+    }
+
+    res.json({ message: `Welcome ${req.session.user.username}` });
 });
 
 module.exports = router;
