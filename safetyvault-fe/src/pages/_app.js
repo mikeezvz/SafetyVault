@@ -1,5 +1,6 @@
 import "@/styles/globals.css";
 import Image from "next/image";
+import Link from "next/link"
 
 export default function App({ Component, pageProps }) {
   return (
@@ -7,9 +8,9 @@ export default function App({ Component, pageProps }) {
     <nav className="flex justify-between bg-gray-900 text-white w-screen h-24">
     <div className="ml-10 flex gap-4">
       <div className="m-auto">
-   <p className="text-5xl font-bold font-heading place">
+   <Link className="text-5xl font-bold font-heading place" href="/">
     Safety Vault
-    </p>
+    </Link>
     </div>
     <div className="m-auto mt-12">
     <a className="font-bold ml-5">
