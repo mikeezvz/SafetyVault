@@ -21,7 +21,7 @@ body {
 }
 
 /* Form for login/registration */
-.form {
+.index-form {
   background-color: #15172b;
   border-radius: 20px;
   box-sizing: border-box;
@@ -46,7 +46,7 @@ body {
   margin-top: 10px;
 }
 
-.input-container {
+.index-input-container {
   height: 50px;
   position: relative;
   width: 100%;
@@ -60,7 +60,7 @@ body {
   margin-top: 30px;
 }
 
-.input {
+.index-input {
   background-color: #303245;
   border-radius: 12px;
   border: 0;
@@ -136,4 +136,47 @@ body {
 
 .submit:active {
   background-color: #06b;
+}
+
+/* Homepage */
+.homepage-container {
+  padding: 2rem;
+  font-family: Arial, sans-serif;
+}
+.homepage-title {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+.homepage-form {
+  margin-bottom: 2rem;
+}
+.homepage-input-container {
+  margin-bottom: 1rem;
+}
+input {
+  width: 100%;
+  padding: 0.5rem;
+  margin: 0.5rem 0;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+.submit {
+  padding: 0.5rem 1rem;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+.submit:hover {
+  background-color: #0056b3;
+}
+.entries-list {
+  margin-top: 2rem;
+}
+.entry {
+  padding: 1rem;
+  margin-bottom: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
 }

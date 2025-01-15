@@ -48,13 +48,13 @@ export default function Home() {
 
   return (
     <div className="m-7">
-      <div className="form mx-auto">
+      <div className="index-form mx-auto">
         <div className="title">Welcome</div>
         <div className="subtitle">Let's create your account!</div>
-        <div className="input-container ic1">
+        <div className="index-input-container ic1">
           <input
             id="username"
-            className="input"
+            className="index-input"
             type="text"
             placeholder=" "
             value={username}
@@ -65,10 +65,10 @@ export default function Home() {
             Username
           </label>
         </div>
-        <div className="input-container ic2">
+        <div className="index-input-container ic2">
           <input
             id="password"
-            className="input"
+            className="index-input"
             type="password"
             placeholder=" "
             value={password}
