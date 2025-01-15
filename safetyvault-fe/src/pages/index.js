@@ -50,42 +50,44 @@ export default function Home() {
     <div className="m-7">
       <div className="index-form mx-auto">
         <div className="title">Welcome</div>
-        <div className="subtitle">Let's create your account!</div>
+        <div className="subtitle">Create an account or log in!</div>
         <div className="index-input-container ic1">
           <input
             id="username"
             className="index-input"
             type="text"
-            placeholder=" "
+            placeholder="Username"
             value={username}
             onChange={(e) => setUsername(e.target.value)}
           />
           <div className="cut"></div>
           <label htmlFor="username" className="placeholder">
-            Username
           </label>
         </div>
+
         <div className="index-input-container ic2">
           <input
             id="password"
             className="index-input"
             type="password"
-            placeholder=" "
+            placeholder="Password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
           <div className="cut"></div>
           <label htmlFor="password" className="placeholder">
-            Password
           </label>
         </div>
+
         <button type="button" className="submit" onClick={handleRegister}>
           Register
         </button>
         <button type="button" className="submit" onClick={handleLogin}>
           Login
         </button>
-        {message && <div className="message">{message}</div>}
+        <div className="index-message">
+          {message && <div className="message">{message}</div>}
+        </div>
       </div>
     </div>
   );

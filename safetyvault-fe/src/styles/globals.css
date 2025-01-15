@@ -138,6 +138,15 @@ body {
   background-color: #06b;
 }
 
+.index-message {
+  margin-top: 20px;
+  font-size: 25px;
+  font-weight: 900;
+  color: #15172b;
+}
+
+
+
 /* Homepage */
 .homepage-container {
   padding: 2rem;
