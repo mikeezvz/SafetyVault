@@ -4,7 +4,6 @@ const mongoose = require('mongoose');
 const session = require('express-session');
 const MongoStore = require('connect-mongo');
 require('dotenv').config();
-
 const app = express();
 const port = process.env.PORT || 5000;
 
@@ -41,8 +40,14 @@ mongoose.connect(mongoURL, {
 const userRoute = require('./routes/auth');
 app.use('/user', userRoute);
 
+const entryRoute = require('./routes/entry');
+app.use('/entry', entryRoute);
+
+const authRoute = require('./routes/auth');
+app.use('/auth', authRoute);
+
 app.get('/', (req, res) => {
-    res.send('Homepage');
+    res.send('SafetyVault Backend');
 });
 
 app.listen(port, () => {
