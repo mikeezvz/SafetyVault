@@ -38,6 +38,9 @@ app.use('/user', tasksRoute);
 const entryRoute = require('./routes/entry');
 app.use('/entry')
 
+const authRoute = require('./routes/auth');
+app.use('/auth')
+
 app.listen(port, '0.0.0.0', () => {
     console.log(`Server running on port ${port}`);
 });
