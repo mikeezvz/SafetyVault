@@ -13,7 +13,7 @@ const entrySchema = new mongoose.Schema({
 
 router.get('/all', async (request, response) => {
     try {
-        const entries = await Entry.find();
+        const entries = await Entry.find({ user: req.session.userid });
         response.json(entries);
         console.log('Data received')
     } catch (error) {
@@ -28,12 +28,12 @@ router.post('/new', async (request, response) => {
         if (!service || !username || !password) {
             return response.status(400).json({ message: 'All fields are required' });
         }
-        const hashedPassword = await bcrypt.hash(password, saltRounds);
+        const hashedPassword = await bcrypt.hash(password, 10);
         const doc = new Entry({
             service: service,
             username: username,
             password: hashedPassword,
-            user: req.session.userId
+            user: req.session.userid
           });
         const savedEntry = await doc.save();
         response.status(201).json(savedEntry)
@@ -44,6 +44,19 @@ router.post('/new', async (request, response) => {
     }
 });
 
-
+router.delete('/delete/:id', async (req, res) => {
+    try {
+      const {id} = req.params; 
+      const deletedEntry = await Entry.findByIdAndDelete(id); 
+  
+      if (!deletedEntry) {
+        return res.status(404).json({ message: 'Entry not found' });
+      }
+  
+      res.status(200).json({ message: 'Entry deleted successfully' });
+    } catch (error) {
+      res.status(500).json({ message: 'Error deleting entry:', error});
+    }
+  });
 
 module.exports = router;
