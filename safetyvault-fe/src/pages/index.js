@@ -1,40 +1,92 @@
-import Image from "next/image";
-import { Geist, Geist_Mono } from "next/font/google";
-
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
+import { useState } from "react";
 
 export default function Home() {
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [message, setMessage] = useState("");
+
+  const handleRegister = async () => {
+    try {
+      const response = await fetch("http://localhost:5000/user/register", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ username, password }),
+      });
+
+      const data = await response.json();
+      if (response.ok) {
+        setMessage("Registration successful!");
+      } else {
+        setMessage(data.message || "Registration failed.");
+      }
+    } catch (error) {
+      console.error(error);
+      setMessage("An error occurred during registration.");
+    }
+  };
+
+  const handleLogin = async () => {
+    try {
+      const response = await fetch("http://localhost:5000/user/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ username, password }),
+      });
+
+      const data = await response.json();
+      if (response.ok) {
+        setMessage("Login successful!");
+        window.location.href = "/homepage"; 
+      } else {
+        setMessage(data.message || "Login failed.");
+      }
+    } catch (error) {
+      console.error(error);
+      setMessage("An error occurred during login.");
+    }
+  };
+
   return (
     <div className="m-7">
-      {/* Form for registration/login */}
-      <div class="form mx-auto">
-        <div class="title">Welcome</div>
-        <div class="subtitle">Let's create your account!</div>
-        <div class="input-container ic1">
-          <input id="firstname" class="input" type="text" placeholder=" " />
-          <div class="cut"></div>
-          <label for="firstname" class="placeholder">Username</label>
+      <div className="form mx-auto">
+        <div className="title">Welcome</div>
+        <div className="subtitle">Let's create your account!</div>
+        <div className="input-container ic1">
+          <input
+            id="username"
+            className="input"
+            type="text"
+            placeholder=" "
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+          />
+          <div className="cut"></div>
+          <label htmlFor="username" className="placeholder">
+            Username
+          </label>
         </div>
-        <div class="input-container ic2">
-          <input id="lastname" class="input" type="text" placeholder=" " />
-          <div class="cut"></div>
-          <label for="lastname" class="placeholder">Password</label>
+        <div className="input-container ic2">
+          <input
+            id="password"
+            className="input"
+            type="password"
+            placeholder=" "
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
+          <div className="cut"></div>
+          <label htmlFor="password" className="placeholder">
+            Password
+          </label>
         </div>
-        <div class="input-container ic2">
-          <input id="email" class="input" type="text" placeholder=" " />
-          <div class="cut cut-short"></div>
-          <label for="email" class="placeholder">Confirm password</label>
+        <button type="button" className="submit" onClick={handleRegister}>
+          Register
+        </button>
+        <button type="button" className="submit" onClick={handleLogin}>
+          Login
+        </button>
+        {message && <div className="message">{message}</div>}
       </div>
-      <button type="text" class="submit">submit</button>
     </div>
-    </div> 
-  )
+  );
 }
