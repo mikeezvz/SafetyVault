@@ -11,14 +11,15 @@ useEffect(() => {
     const fetchEntries = async () => {
       try {
         const response = await fetch("http://localhost:5000/entry/all", {
-          method: "GET",
-          credentials: "include", 
+          method: "GET", 
+          credentials: "include",
         });
         if (!response.ok) {
-          throw new Error("Failed to fetch entries");
+          console.log("Error")
         }
         const data = await response.json();
         setEntries(data);
+        console.log(data)
       } catch (error) {
         console.error("Error fetching entries:", error);
       }

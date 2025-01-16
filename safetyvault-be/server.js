@@ -23,9 +23,9 @@ app.use(
             collectionName: 'sessions',
         }),
         cookie: { maxAge: 1000 * 60 * 60 },
-        httpOnly: true,         // Prevent JavaScript access to cookies
-        secure: false,          // Set to true if using HTTPS
-        sameSite: 'lax',        // Ensure cookies are properly sent
+        httpOnly: true,         
+        secure: false,         
+        sameSite: 'lax',        
     })
 );
 
