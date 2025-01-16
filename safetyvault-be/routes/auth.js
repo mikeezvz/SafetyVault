@@ -17,6 +17,18 @@ router.post('/register', async (req, res) => {
             return res.status(400).json({ message: 'Username already exists' });
         }
 
+        const minPasswordLength = 8;
+
+        if (password.length < minPasswordLength) {
+            return res.status(400).json({ message: `Password must be at least ${minPasswordLength} characters long` });
+        }
+
+        const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/; 
+
+        if (!passwordRegex.test(password)) {
+            return res.status(400).json({ message: 'Password must contain at least one letter, one number, and one special character' });
+        }
+
         const hashedPassword = await bcrypt.hash(password, 10);
         const newUser = new User({ username, password: hashedPassword });
 
@@ -55,7 +67,7 @@ router.post('/login', async (req, res) => {
     }
 });
 
-
+// Change password
 router.patch('/changepassword', async (req, res) => {
     try {
         const { password } = req.body;
