@@ -67,6 +67,15 @@ router.post('/login', async (req, res) => {
     }
 });
 
+router.get('/checklogin', (req, res) => {
+    if (req.session.user.id) {
+        return res.status(200).json({ loggedIn: true });
+    } else {
+        return res.status(200).json({ loggedIn: false });
+    }
+});
+
+
 // Change password
 router.patch('/changepassword', async (req, res) => {
     try {
